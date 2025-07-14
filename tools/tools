@@ -1,0 +1,53 @@
+:: FOR WINDOWS SYSTEMS
+
+:: Cleans and refetches all dependencies in preparation for an app build.
+
+del android\app\build
+
+flutter clean &&^
+flutter pub get &&^
+dart run build_runner build --delete-conflicting-outputs
+
+:: Cleans and refetches all gradle dependencies in preparation for an app build.
+ 
+cd android
+
+./gradlew clean
+./gradlew --refresh-dependencies
+./gradlew build
+
+Run the app with verbose logs to identify more details
+flutter run --verbose
+
+:: Build app release 
+
+generate keystore data
+keytool -genkeypair -v -keystore "C:\Users\UserName\keystore" -keyalg RSA -keysize 2048 -validity 10000 -alias ocakey
+
+check keystore data
+keytool -list -v -keystore android/app/oca_app_keystore.jks
+
+test
+flutter run --release --no-tree-shake-icons
+
+android
+
+flutter build apk --release --no-shrink --no-tree-shake-icons
+
+deployment to playstore
+
+flutter build appbundle --release --no-shrink --no-tree-shake-icons
+
+
+
+IOS
+flutter build ipa --release --no-tree-shake-icons
+
+To Update web prjects - sequence
+flutter build web --base-href="/Ronald_dela_cruz_portfolio_v2/"
+Copy-Item -Recurse -Force .\build\web\* .
+git add .
+git commit -m "Update website"
+git push origin main
+
+

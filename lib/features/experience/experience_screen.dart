@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:ronald_dela_cruz_portfolio_v2/widgets/custom_app_bar.dart';
+import 'package:ronald_dela_cruz_portfolio_v2/widgets/side_navigation_drawer.dart';
+import 'package:ronald_dela_cruz_portfolio_v2/widgets/footer.dart';
 
 class ExperienceScreen extends StatelessWidget {
   const ExperienceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Experience')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      appBar: const CustomAppBar(title: 'Experience'),
+      drawer: const SideNavigationDrawer(),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: isDark
+                ? [const Color(0xFF0D3B3E), const Color(0xFF1B5E20)]
+                : [const Color(0xFFA5D6A7), const Color(0xFF66BB6A)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
           children: const [
             ExperienceCard(
               company: 'SQME Professional',
@@ -116,6 +130,8 @@ class ExperienceScreen extends StatelessWidget {
                 'Upsold products and maintained customer satisfaction',
               ],
             ),
+            SizedBox(height: 32),
+            AppFooter(),
           ],
         ),
       ),
@@ -123,7 +139,7 @@ class ExperienceScreen extends StatelessWidget {
   }
 }
 
-class ExperienceCard extends StatelessWidget {
+class ExperienceCard extends StatefulWidget {
   final String company;
   final String period;
   final String role;
@@ -138,39 +154,101 @@ class ExperienceCard extends StatelessWidget {
   });
 
   @override
+  State<ExperienceCard> createState() => _ExperienceCardState();
+}
+
+class _ExperienceCardState extends State<ExperienceCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeIn;
+  late Animation<Offset> _slideIn;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    _fadeIn = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _slideIn = Tween<Offset>(
+      begin: const Offset(0, 0.1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              company,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+    return FadeTransition(
+      opacity: _fadeIn,
+      child: SlideTransition(
+        position: _slideIn,
+        child: Card(
+          color: isDark ? Colors.black.withOpacity(0.2) : Colors.white,
+          margin: const EdgeInsets.only(bottom: 16),
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.company,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  widget.period,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: isDark ? Colors.white60 : Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  widget.role,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: isDark ? Colors.white70 : Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ...widget.bullets.map(
+                  (b) => Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("• ", style: TextStyle(height: 1.5)),
+                      Expanded(
+                        child: Text(
+                          b,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: isDark ? Colors.white70 : Colors.black87,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 4),
-            Text(period, style: theme.textTheme.bodySmall),
-            const SizedBox(height: 8),
-            Text(role, style: theme.textTheme.bodyMedium),
-            const SizedBox(height: 8),
-            ...bullets.map(
-              (b) => Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("• "),
-                  Expanded(child: Text(b)),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
