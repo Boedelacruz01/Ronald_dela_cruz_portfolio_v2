@@ -5,11 +5,13 @@ class AppTheme {
   static ThemeData get light => ThemeData(
     brightness: Brightness.light,
     primarySwatch: Colors.indigo,
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: const Color(0xFFF5F7FA),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.indigo,
+      backgroundColor: Color(0xFF5C6BC0), // Solid color, no gradient
       foregroundColor: Colors.white,
+      elevation: 0,
     ),
+    cardColor: const Color(0xFFF0F3FA),
     textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
   );
 
@@ -18,9 +20,11 @@ class AppTheme {
     primarySwatch: Colors.indigo,
     scaffoldBackgroundColor: const Color(0xFF121212),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF1F1F1F),
+      backgroundColor: Color(0xFF1E1E2C),
       foregroundColor: Colors.white,
+      elevation: 0,
     ),
+    cardColor: const Color(0xFF1F1F2D),
     textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
   );
 }

@@ -22,7 +22,7 @@ flutter run --verbose
 :: Build app release 
 
 generate keystore data
-keytool -genkeypair -v -keystore "C:\Users\SQME ADMIN\keystore" -keyalg RSA -keysize 2048 -validity 10000 -alias ocakey
+keytool -genkeypair -v -keystore "C:\Users\UserName\keystore" -keyalg RSA -keysize 2048 -validity 10000 -alias ocakey
 
 check keystore data
 keytool -list -v -keystore android/app/oca_app_keystore.jks

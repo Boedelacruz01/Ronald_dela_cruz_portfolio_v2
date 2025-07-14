@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:ronald_dela_cruz_portfolio_v2/widgets/custom_app_bar.dart';
 import 'package:ronald_dela_cruz_portfolio_v2/widgets/footer.dart';
 import 'package:ronald_dela_cruz_portfolio_v2/widgets/side_navigation_drawer.dart';
-import 'package:ronald_dela_cruz_portfolio_v2/widgets/section_title.dart'; // 👈 Add this
+import 'package:ronald_dela_cruz_portfolio_v2/widgets/section_title.dart';
 import 'package:ronald_dela_cruz_portfolio_v2/widgets/wrapper.dart';
+import 'package:ronald_dela_cruz_portfolio_v2/widgets/gradient_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -46,80 +47,100 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildBody(ThemeData theme) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircleAvatar(
-                radius: 60,
-                backgroundImage: AssetImage('assets/profilepic.jpg'),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Ronald Artuz Dela Cruz',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color(0xFF0D3B3E), // Dark Teal-Green
+            Color(0xFF1B5E20), // Deep Green
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  radius: 60,
+                  backgroundImage: AssetImage('assets/profilepic.jpg'),
                 ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Flutter Developer • WEB Developer • Tech Support',
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
+                const SizedBox(height: 16),
+                Text(
+                  'Ronald Artuz Dela Cruz',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Flutter Developer • WEB Developer • Tech Support',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white70),
+                ),
+                const SizedBox(height: 24),
 
-              // Section title
-              const SectionTitle(
-                title: 'Welcome to my professional portfolio.',
-                subtitle: 'Browse to learn more about me.',
-              ),
+                // 👇 SectionTitle - no `const`, animated
+                SectionTitle(
+                  title: 'Welcome to my professional portfolio.',
+                  subtitle: 'Browse to learn more about me.',
+                ),
 
-              const SizedBox(height: 32),
-              Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                alignment: WrapAlignment.center,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () => Get.toNamed('/about'),
-                    icon: const Icon(Icons.person),
-                    label: const Text("About Me"),
+                const SizedBox(height: 32),
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    GradientButton(
+                      onPressed: () => Get.toNamed('/about'),
+                      icon: const Icon(Icons.person, color: Colors.white),
+                      label: 'About Me',
+                    ),
+                    GradientButton(
+                      onPressed: () => Get.toNamed('/skills'),
+                      icon: const Icon(Icons.code, color: Colors.white),
+                      label: 'Skills',
+                    ),
+                    GradientButton(
+                      onPressed: () => Get.toNamed('/experience'),
+                      icon: const Icon(Icons.work, color: Colors.white),
+                      label: 'Experience',
+                    ),
+                    GradientButton(
+                      onPressed: () => Get.toNamed('/projects'),
+                      icon: const Icon(
+                        Icons.mobile_friendly,
+                        color: Colors.white,
+                      ),
+                      label: 'Projects',
+                    ),
+                    GradientButton(
+                      onPressed: () => Get.toNamed('/contact'),
+                      icon: const Icon(Icons.mail, color: Colors.white),
+                      label: 'Contact',
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                OutlinedButton.icon(
+                  onPressed: _launchResume,
+                  icon: const Icon(Icons.file_download, color: Colors.white),
+                  label: const Text("Download Resume"),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.white),
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () => Get.toNamed('/skills'),
-                    icon: const Icon(Icons.code),
-                    label: const Text("Skills"),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () => Get.toNamed('/experience'),
-                    icon: const Icon(Icons.work),
-                    label: const Text("Experience"),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () => Get.toNamed('/projects'),
-                    icon: const Icon(Icons.mobile_friendly),
-                    label: const Text("Projects"),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () => Get.toNamed('/contact'),
-                    icon: const Icon(Icons.mail),
-                    label: const Text("Contact"),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              OutlinedButton.icon(
-                onPressed: _launchResume,
-                icon: const Icon(Icons.file_download),
-                label: const Text("Download Resume"),
-              ),
-
-              const SizedBox(height: 32),
-              const AppFooter(), // moved inside scrollable area
-            ],
+                ),
+                const SizedBox(height: 32),
+                const AppFooter(),
+              ],
+            ),
           ),
         ),
       ),
