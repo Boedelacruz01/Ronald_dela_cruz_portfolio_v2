@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Flutter Developer • API Developer • Tech Support',
+                'Flutter Developer • WEB Developer • Tech Support',
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
