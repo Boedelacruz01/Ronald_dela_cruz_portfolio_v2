@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "832255754826",
+    "project_id": "ronald-delacruz-porfolio-v2",
+    "storage_bucket": "ronald-delacruz-porfolio-v2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832255754826:android:b42ebe9ee104a9ea0edcb3",
+        "android_client_info": {
+          "package_name": "com.example.ronald_dela_cruz_portfolio_v2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkaCIKc0xH5SsMIhd1CUAyXPHAHbzVqnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

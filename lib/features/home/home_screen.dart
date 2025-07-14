@@ -1,0 +1,119 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ronald_dela_cruz_portfolio_v2/widgets/custom_app_bar.dart';
+import 'package:ronald_dela_cruz_portfolio_v2/widgets/footer.dart';
+import 'package:ronald_dela_cruz_portfolio_v2/widgets/side_navigation_drawer.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  void _launchResume() async {
+    final url =
+        'https://raw.githubusercontent.com/Boedelacruz01/portfolio-Assets/main/RONALD_RESUME_2025_NP_v2.pdf';
+    final uri = Uri.parse(url);
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint('⚠️ Could not launch resume URL');
+      Get.snackbar(
+        'Download Failed',
+        'Could not launch resume link.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: const CustomAppBar(title: 'Home'),
+      drawer: const SideNavigationDrawer(),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircleAvatar(
+                      radius: 60,
+                      backgroundImage: AssetImage(
+                        'assets/placeholderImage.jpg',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Ronald Artuz Dela Cruz',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Flutter Developer • API Developer • Tech Support',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Welcome to my professional portfolio.',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 32),
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () => Get.toNamed('/about'),
+                          icon: const Icon(Icons.person),
+                          label: const Text("About Me"),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () => Get.toNamed('/skills'),
+                          icon: const Icon(Icons.code),
+                          label: const Text("Skills"),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () => Get.toNamed('/experience'),
+                          icon: const Icon(Icons.work),
+                          label: const Text("Experience"),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () => Get.toNamed('/projects'),
+                          icon: const Icon(Icons.mobile_friendly),
+                          label: const Text("Projects"),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () => Get.toNamed('/contact'),
+                          icon: const Icon(Icons.mail),
+                          label: const Text("Contact"),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    OutlinedButton.icon(
+                      onPressed: _launchResume,
+                      icon: const Icon(Icons.file_download),
+                      label: const Text("Download Resume"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const AppFooter(),
+        ],
+      ),
+    );
+  }
+}
