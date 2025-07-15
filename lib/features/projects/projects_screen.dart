@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:ronald_dela_cruz_portfolio_v2/widgets/custom_app_bar.dart';
 import 'package:ronald_dela_cruz_portfolio_v2/widgets/side_navigation_drawer.dart';
 import 'package:ronald_dela_cruz_portfolio_v2/widgets/footer.dart';
@@ -42,6 +43,28 @@ class ProjectsScreen extends StatelessWidget {
               description:
                   'Designed and tested REST APIs, ensuring full coverage and stability for mobile applications.',
             ),
+            _AnimatedProjectCard(
+              title: 'Good Bank Mobile App',
+              description:
+                  'A secure and responsive mobile banking solution with modern UI and custom animations.',
+            ),
+            _AnimatedProjectCard(
+              title: 'One Customer Portal',
+              description:
+                  'Enterprise-level portal enabling real-time user management and analytics.',
+            ),
+            _AnimatedProjectCard(
+              title: 'PickApps Mobile App',
+              description:
+                  'On-demand service platform with location tracking and in-app messaging.',
+            ),
+            _AnimatedLinkCard(
+              title: 'View Full Portfolio',
+              description:
+                  'Click here to see my full portfolio and latest works.',
+              url:
+                  'https://boedelacruz01.github.io/Ronald_dela_cruz_portfolio_v2/',
+            ),
             SizedBox(height: 32),
             AppFooter(),
           ],
@@ -71,6 +94,39 @@ class _AnimatedProjectCard extends StatelessWidget {
         ),
       ),
       child: ProjectCard(title: title, description: description),
+    );
+  }
+}
+
+class _AnimatedLinkCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final String url;
+
+  const _AnimatedLinkCard({
+    required this.title,
+    required this.description,
+    required this.url,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      duration: const Duration(milliseconds: 500),
+      tween: Tween(begin: 0, end: 1),
+      curve: Curves.easeInOut,
+      builder: (context, value, child) => Opacity(
+        opacity: value,
+        child: Transform.translate(
+          offset: Offset(0, 20 * (1 - value)),
+          child: child,
+        ),
+      ),
+      child: GestureDetector(
+        onTap: () =>
+            launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication),
+        child: ProjectCard(title: title, description: description),
+      ),
     );
   }
 }

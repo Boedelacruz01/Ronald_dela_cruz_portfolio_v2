@@ -34,7 +34,8 @@ class SkillsScreen extends StatelessWidget {
               '• Dart & Flutter\n'
               '• JavaScript (JS), Node.js\n'
               '• C Language\n'
-              '• HTML5 & CSS3',
+              '• HTML5 & CSS3\n'
+              '• PHP',
               theme,
               isDark,
             ),
